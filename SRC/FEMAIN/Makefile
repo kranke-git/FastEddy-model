@@ -40,13 +40,12 @@ TEST_CFLAGS = -Wall -m64 ${DEFINES} ${INCLUDES}
 ARCH_CU_FLAGS = -arch=sm_70
 TEST_CU_CFLAGS = ${ARCH_CU_FLAGS} -m64 -std=c++11 ${DEFINES} ${INCLUDES}
 
-L_CPPFLAGS =
+L_CPPFLAGS = 
 
-TEST_LDFLAGS = -L.
-TEST_CU_LDFLAGS = -L.
-
-TEST_LIBS = -lm -lmpi -lstdc++ -lcurand
-TEST_CU_LIBS = -lm -lmpi -lcudart
+CUDALIBS = /afs/crc.nd.edu/x86_64_linux/c/cuda/11.0/lib64
+NETCDFLIBS = /afs/crc/group/EnvStat/build/lib
+TEST_LDFLAGS = -L${CUDALIBS} -L${NETCDFLIBS}
+TEST_LIBS = -lm -lmpi -lstdc++ -lcudart -lnetcdf
 
 
 ################################################################################
@@ -123,12 +122,20 @@ all: FastEddy
 ################################################################################
 # Generic compile rules
 # ################################################################################
+#%.o: %.cu
+#	rm -rf ./FastEddy_devlink.o; \
+	$(TEST_CU_CC) $(TEST_CU_CFLAGS) -dc $< $(TEST_LIBS) -o $@
+
+#.c.o:
+#	${COMP_FLAGS} -c $< $(TEST_LIBS) -o $@
+
 %.o: %.cu
 	rm -rf ./FastEddy_devlink.o; \
 	$(TEST_CU_CC) $(TEST_CU_CFLAGS) -dc $< -o $@
 
 .c.o:
 	${COMP_FLAGS} -c $< -o $@
+
 
 ################################################################################
 # Module=specific compile rules
