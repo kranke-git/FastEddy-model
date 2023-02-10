@@ -37,12 +37,12 @@ DEFINES = -DCUB_IGNORE_DEPRECATED_CPP_DIALECT -DTHRUST_IGNORE_DEPRECATED_CPP_DIA
 
 
 TEST_CFLAGS = -Wall -m64 ${DEFINES} ${INCLUDES}
-ARCH_CU_FLAGS = -arch=sm_70
+ARCH_CU_FLAGS = -arch=sm_61
 TEST_CU_CFLAGS = ${ARCH_CU_FLAGS} -m64 -std=c++11 ${DEFINES} ${INCLUDES}
 
 L_CPPFLAGS = 
 
-CUDALIBS = /afs/crc.nd.edu/x86_64_linux/c/cuda/11.0/lib64
+CUDALIBS = /opt/crc/c/cuda/11.6/Linux_x86_64/22.3/cuda/11.6/lib64
 NETCDFLIBS = /afs/crc/group/EnvStat/build/lib
 TEST_LDFLAGS = -L${CUDALIBS} -L${NETCDFLIBS}
 TEST_LIBS = -lm -lmpi -lstdc++ -lcudart -lnetcdf
